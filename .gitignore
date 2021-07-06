@@ -53,6 +53,8 @@ dkms.conf
 
 # CLion
 *.xml
+cmake-build-debug/*
+CMakeLists.txt
 
 #  Additional Files
 *.ppm
