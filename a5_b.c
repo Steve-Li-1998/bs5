@@ -30,11 +30,19 @@ void closeFile(FILE *target){
 }
 
 void initPara (char *para[]){
+    for (int i = 1; i < 6; ++i) {
+        for (int j = 0; *(para[i] + j) != '\0'; ++j) {
+            if (*(para[i] + j)<'0'||*(para[i] + j)>'9'){
+                puts("Fehler: Die Helligkeit jeder Farbe und Groesse der Bildung soll eine Ziffer sein");
+                exit(1);
+            }
+        }
+    }
     for (int i = 0; i < 5; ++i) {
         char **endptr = NULL;
         imgPara[i].value = atoi(para[i + 1]);
         if (i>=2&&(imgPara[i].value<0||imgPara[i].value>255)){
-            puts("Fehler: Die Helligkeiten jeder Farbe sollen zwischen 0 und 255 sein");
+            puts("Fehler: Die Helligkeit jeder Farbe soll zwischen 0 und 255 sein");
             exit(1);
         }
     }
