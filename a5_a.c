@@ -28,9 +28,7 @@ long calculateFileSize(FILE *target){
 }
 
 void getFileInfo(FILE *target){
-    unsigned int counter= 0;
-    int retval;
-    if ((retval = fscanf(target, "P3%d%d", &breite, &hoehe))==0){
+    if (fscanf(target, "P3%d%d", &breite, &hoehe) == 0){
         puts("Fehler: Das Format dieser Datei ist falsch");
         exit(1);
     }
