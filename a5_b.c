@@ -66,7 +66,7 @@ void writeFile(FILE *target){
             puts("Fehler: Datei kann nicht gespeichert werden");
             exit(1);
         }
-        if (9 == i % imgPara[0].value){
+        if (imgPara[0].value - 1 == i % imgPara[0].value){
             if(fprintf(target,"\n") == 0){
                 puts("Fehler: Datei kann nicht gespeichert werden");
                 exit(1);
