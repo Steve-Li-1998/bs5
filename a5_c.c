@@ -8,8 +8,10 @@
 
 typedef struct para_t{char *key; int value} para_t;
 
-para_t imgPara[5] = {{"breite",0},{"hoehe",0},{"rotKomp",0},
-                              {"gruenKomp",0},{"blauKomp",0}};
+para_t imgPara[11] = {{"breite",0},{"hoehe",0},{"rotStart",0},
+                     {"gruenStart",0},{"blauStart",0},{"rotZiel",0},
+                     {"gruenZiel",0},{"blauZiel",0},{"rotStufe",0},
+                      {"gruenStufe",0},{"blauStufe",0}};
 
 char *name;
 
@@ -30,7 +32,7 @@ void closeFile(FILE *target){
 }
 
 void initPara (char *para[]){
-    for (int i = 1; i < 6; ++i) {
+    for (int i = 1; i < 9; ++i) {
         for (int j = 0; *(para[i] + j) != '\0'; ++j) {
             if (*(para[i] + j)<'0'||*(para[i] + j)>'9'){
                 puts("Fehler: Die Helligkeit jeder Farbe und Groesse der Bildung soll eine Ziffer sein");
@@ -38,7 +40,7 @@ void initPara (char *para[]){
             }
         }
     }
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 8; ++i) {
         char **endptr = NULL;
         imgPara[i].value = atoi(para[i + 1]);
         if (i>=2&&(imgPara[i].value<0||imgPara[i].value>255)){
@@ -46,7 +48,10 @@ void initPara (char *para[]){
             exit(1);
         }
     }
-    name = para[6];
+    for (int i = 2; i < 5; ++i) {
+        imgPara[i + 6].value = (imgPara[i + 3].value - imgPara[i].value) / imgPara[0].value;
+    }
+    name = para[9];
     int i;
     for (i = 0; *(name + i) != '\0'; ++i) {}
     i -= 4;
@@ -62,7 +67,11 @@ void writeFile(FILE *target){
         exit(1);
     }
     for (int i = 0; i < imgPara[0].value * imgPara[1].value; ++i) {
-        if(fprintf(target,"%d %d %d ", imgPara[2].value, imgPara[3].value, imgPara[4].value) == 0){
+        int posion = i % imgPara[0].value;
+        int rot = imgPara[2].value + posion * imgPara[8].value;
+        int gruen = imgPara[3].value + posion * imgPara[9].value;
+        int blau = imgPara[4].value + posion * imgPara[10].value;
+        if(fprintf(target,"%d %d %d ", rot, gruen, blau) == 0){
             puts("Fehler: Datei kann nicht gespeichert werden");
             exit(1);
         }
@@ -77,8 +86,8 @@ void writeFile(FILE *target){
 
 int main(int argc, char *argv[])
 {
-    if (1 == argc || argc > 7){
-        puts("Verwendung: ./a5_b <Breite> <Höhe> <Farbkomponente rot> <Farbkomponente grün> <Farbkomponenteblau> <Dateiname>.ppm");
+    if (1 == argc || argc > 10){
+        puts("Verwendung: ./a5_c <Breite> <Höhe> <Rotanteil Startfarbe> <Grünanteil Startfarbe> <Blauanteil Startfar-be> <Rotanteil Zielfarbe> <Grünanteil Zielfarbe> <Blauanteil Zielfarbe> <Dateiname>.ppm");
         return 0;
     }
     initPara(argv);
