@@ -16,6 +16,13 @@ FILE *openFile(char *path){
     return target;
 }
 
+void closeFile(FILE *target){
+    if (fclose(target)){
+        puts("Datei kann nicht gescvhlossen werden");
+        exit(1);
+    }
+}
+
 long calculateFileSize(FILE *target){
     FILE *savePos = target;
     long sizeOfFile;
@@ -43,6 +50,7 @@ int main(int argc, char *argv[])
     }
     FILE *target = openFile(argv[1]);
     getFileInfo(target);
+    closeFile(target);
 	printf("Breite: %d \nHoehe: %d \nDateigroesse: %ld bytes\n",
 		breite, hoehe, dateigroesse);
 	return 0;
