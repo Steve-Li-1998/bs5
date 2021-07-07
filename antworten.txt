@@ -1,0 +1,31 @@
+1.
+Es wird durch Gerätedateien repräsentiert.
+Major Device Number und Minor Device Number
+
+
+Major Device Number identifiziert den mit dem Gerät verknüpften Treiber.
+Bsp: Festplatte
+
+Minor Device Number wird nur von dem durch die Major Device Number angegebenen Treiber verwendet, 
+andere Teile des Kernels verwenden es nicht.
+Bsp: Band zurückspulen
+
+
+
+
+2.
+write hat kein Buffer, die jeweils gelesenen Daten von write haben die vom Anrufer benötigte Größe size
+
+fwrite hat Buffer, liest fread jedes Mal mehr Daten aus dem Kernel-Puffer als nötig required wenn aufrufen. 
+Und wird den Cache automatisch zuordnen, deshalb es wird effektiver als write
+
+
+
+
+3.
+Da FIFO viele Lese- und Schreibvorgänge ausführen, wird viel Zeit für HDDs verschwendet(HDDs brauchen mehr Zeit 
+zum Lesen und Schreiben).
+
+
+
+LRU
