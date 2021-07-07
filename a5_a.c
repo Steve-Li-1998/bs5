@@ -1,4 +1,4 @@
-// Das Ergebnis von ./bs5 beispiel1.ppm "Dateigroesse: 35 bytes" sonder 34 bytes, da EOF auch ein bit besitzt.
+// Das Ergebnis von ./bs5 beispiel1.ppm "Dateigroesse: 35 bytes" sonder 34 bytes, da EOF auch ein byte besitzt.
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
