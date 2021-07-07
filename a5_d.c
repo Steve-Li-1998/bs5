@@ -8,9 +8,8 @@
 
 typedef struct para_t{char *key; int value} para_t;
 
-para_t imgPara[8] = {{"breite",0},{"hoehe",0}, {"radius",0},
-                     {"rotKomp",0},{"gruenKomp",0},{"blauKomp",0},
-                     {"mitte_x",0},{"mitte_y",0}};
+para_t imgPara[6] = {{"breite",0},{"hoehe",0}, {"radius",0},
+                     {"rotKomp",0},{"gruenKomp",0},{"blauKomp",0}};
 
 char *name;
 
@@ -47,9 +46,6 @@ void initPara (char *para[]){
             exit(1);
         }
     }
-    for (int i = 0; i < 2; ++i) {
-        imgPara[i + 6].value = imgPara[i].value / 2;
-    }
     name = para[7];
     int i;
     for (i = 0; *(name + i) != '\0'; ++i) {}
@@ -66,11 +62,12 @@ void writeFile(FILE *target){
         exit(1);
     }
     for (int i = 0; i < imgPara[0].value * imgPara[1].value; ++i) {
-        int x = (i % imgPara[0].value) - imgPara[6].value;
-        int y = (i / imgPara[1].value) - imgPara[7].value;
-        int r =imgPara[2].value;
-        printf("%d %d %d\n",x,y,r);
-        if ((x * x + y * y) / r == r){
+        double mitte_x = (-1.0 + imgPara[0].value) / 2;
+        double mitte_y = (-1.0 + imgPara[1].value) / 2;
+        double x = (double)(i % imgPara[0].value) - mitte_x;
+        double y = (double)(i / imgPara[1].value) - mitte_y;
+        double r =imgPara[2].value;
+        if (((x * x + y * y) / r) >= r - 1 && ((x * x + y * y) / r) <= r + 1){
             if(fprintf(target,"%d %d %d ", imgPara[3].value, imgPara[4].value, imgPara[5].value) == 0){
                 puts("Fehler: Datei kann nicht gespeichert werden");
                 exit(1);
